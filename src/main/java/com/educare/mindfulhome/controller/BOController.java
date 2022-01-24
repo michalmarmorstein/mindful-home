@@ -11,7 +11,7 @@ public class BOController {
 
     @PostMapping("/activity")
     public String createActivity(@Valid @RequestBody CreateActivityRequest payload){
-        return payload.getName();
+        return payload.getLink();
 
     }
 }
