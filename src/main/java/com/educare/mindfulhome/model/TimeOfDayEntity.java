@@ -15,8 +15,10 @@ import java.util.Set;
 @Entity
 @Table(name = "time_of_day")
 public class TimeOfDayEntity {
+
     @Id
-    @Column(name = "tod_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tod_id")
     private Long id;
 
     private String name;

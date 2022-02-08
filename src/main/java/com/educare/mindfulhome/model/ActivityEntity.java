@@ -18,7 +18,7 @@ public class ActivityEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="activity_id", nullable = false)
+    @Column(name="activity_id")
     private Long id;
 
     private String name;
