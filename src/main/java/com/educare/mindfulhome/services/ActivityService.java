@@ -1,6 +1,6 @@
-package com.educare.mindfulhome.service;
+package com.educare.mindfulhome.services;
 
-import com.educare.mindfulhome.controller.payload.CreateActivityRequest;
+import com.educare.mindfulhome.controllers.payload.CreateActivityRequest;
 import com.educare.mindfulhome.model.ActivityEntity;
 import com.educare.mindfulhome.repositories.ActivityRepository;
 import lombok.RequiredArgsConstructor;

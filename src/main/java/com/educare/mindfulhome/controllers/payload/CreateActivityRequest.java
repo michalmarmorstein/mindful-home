@@ -1,4 +1,4 @@
-package com.educare.mindfulhome.controller.payload;
+package com.educare.mindfulhome.controllers.payload;
 
 
 import lombok.AllArgsConstructor;
