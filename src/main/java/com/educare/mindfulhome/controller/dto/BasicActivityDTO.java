@@ -1,4 +1,4 @@
-package com.educare.mindfulhome.controllers.dto;
+package com.educare.mindfulhome.controller.dto;
 
 import com.educare.mindfulhome.model.MediaTypeEnum;
 import com.educare.mindfulhome.model.ParticipantsEnum;

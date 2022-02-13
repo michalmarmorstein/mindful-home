@@ -1,4 +1,4 @@
-package com.educare.mindfulhome.services;
+package com.educare.mindfulhome.service;
 
 import com.educare.mindfulhome.model.ActivityEntity;
 

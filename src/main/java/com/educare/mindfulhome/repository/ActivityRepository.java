@@ -1,4 +1,4 @@
-package com.educare.mindfulhome.repositories;
+package com.educare.mindfulhome.repository;
 
 import com.educare.mindfulhome.model.ActivityEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

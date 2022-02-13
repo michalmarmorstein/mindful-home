@@ -1,12 +1,12 @@
-package com.educare.mindfulhome.controllers;
+package com.educare.mindfulhome.controller;
 
-import com.educare.mindfulhome.controllers.dto.BasicActivityDTO;
-import com.educare.mindfulhome.controllers.dto.FullActivityDTO;
+import com.educare.mindfulhome.controller.dto.BasicActivityDTO;
+import com.educare.mindfulhome.controller.dto.FullActivityDTO;
 import com.educare.mindfulhome.model.ActivityEntity;
 import com.educare.mindfulhome.model.MediaTypeEnum;
 import com.educare.mindfulhome.model.ParticipantsEnum;
 import com.educare.mindfulhome.model.TimeOfDayEnum;
-import com.educare.mindfulhome.services.ActivityService;
+import com.educare.mindfulhome.service.ActivityService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
