@@ -1,24 +1,7 @@
 package com.educare.mindfulhome.services;
 
-import com.educare.mindfulhome.controllers.payload.CreateActivityRequest;
 import com.educare.mindfulhome.model.ActivityEntity;
-import com.educare.mindfulhome.repositories.ActivityRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-@Service
-@RequiredArgsConstructor
-public class ActivityService {
-
-    private final ActivityRepository repo;
-
-    public Long createActivity(CreateActivityRequest activity){
-        //TODO find elegant way to handle this
-        ActivityEntity entity = new ActivityEntity(activity.getName(), activity.getLink());
-        entity = repo.save(entity);
-        repo.flush();
-        return entity.getId();
-    }
-
-
+public interface ActivityService {
+    public ActivityEntity createActivity(ActivityEntity activity);
 }

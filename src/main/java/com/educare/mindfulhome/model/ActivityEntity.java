@@ -3,19 +3,20 @@ package com.educare.mindfulhome.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.Collection;
+import java.util.UUID;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="activity")
 public class ActivityEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="activity_id")
-    private Long id;
+    private UUID id = UUID.randomUUID();
 
     private String name;
 
@@ -23,26 +24,18 @@ public class ActivityEntity {
     private String data;
 
     @Enumerated(value = EnumType.STRING)
-    private MediaType mediaType;
+    private MediaTypeEnum mediaType;
 
     @Enumerated(value = EnumType.STRING)
-    private ParticipantsType participantsType;
+    private ParticipantsEnum participantsType;
 
     private String trainer;
 
     private Integer durationInSeconds;
 
-    @ManyToMany
-    @JoinTable(
-            name = "activity_tod",
-            joinColumns = @JoinColumn(name = "activity_id"),
-            inverseJoinColumns = @JoinColumn(name = "tod_id"))
-    private Set<TimeOfDayEntity> recommendedTimeOfDay;
-
-    //TODO remove this constructor
-    public ActivityEntity(String name, String link){
-        this.name = name;
-        this.data = link;
-    }
+    @ElementCollection
+    @CollectionTable(name="ACTIVITY_TIME_OF_DAY")
+    @Enumerated(EnumType.STRING)
+    private Collection<TimeOfDayEnum> recommendedTimeOfDay;
 
 }

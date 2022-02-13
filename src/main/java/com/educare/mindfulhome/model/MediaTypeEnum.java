@@ -1,5 +1,5 @@
 package com.educare.mindfulhome.model;
 
-public enum MediaType {
+public enum MediaTypeEnum {
     VIDEO, AUDIO, TEXT
 }

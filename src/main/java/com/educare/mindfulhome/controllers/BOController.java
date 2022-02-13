@@ -1,11 +1,19 @@
 package com.educare.mindfulhome.controllers;
 
-import com.educare.mindfulhome.controllers.payload.CreateActivityRequest;
+import com.educare.mindfulhome.controllers.dto.BasicActivityDTO;
+import com.educare.mindfulhome.controllers.dto.FullActivityDTO;
+import com.educare.mindfulhome.model.ActivityEntity;
+import com.educare.mindfulhome.model.MediaTypeEnum;
+import com.educare.mindfulhome.model.ParticipantsEnum;
+import com.educare.mindfulhome.model.TimeOfDayEnum;
 import com.educare.mindfulhome.services.ActivityService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashSet;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/bo")
@@ -13,11 +21,22 @@ import javax.validation.Valid;
 public class BOController {
 
     private final ActivityService activityService;
+    private final ModelMapper modelMapper;
 
     @PostMapping("/activity")
-    public String createActivity(@Valid @RequestBody CreateActivityRequest payload){
-
-        Long id = activityService.createActivity(payload);
-        return id.toString();
+    public FullActivityDTO createActivity(@Valid @RequestBody BasicActivityDTO activityDTO) {
+        ActivityEntity savedActivity = activityService.createActivity(modelMapper.map(activityDTO, ActivityEntity.class));
+        return modelMapper.map(savedActivity, FullActivityDTO.class);
     }
+
+    @GetMapping("/activity")
+    public BasicActivityDTO hi() {
+        Set<TimeOfDayEnum> set = new HashSet<>();
+        set.add(TimeOfDayEnum.MORNING);
+        set.add(TimeOfDayEnum.NOON);
+        BasicActivityDTO dto = new BasicActivityDTO("activity1", "http://blabla", MediaTypeEnum.AUDIO,
+                ParticipantsEnum.ADULTS_ONLY, "Danni", 52, set);
+        return dto;
+    }
+
 }
