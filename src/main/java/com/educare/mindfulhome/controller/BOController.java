@@ -35,7 +35,7 @@ public class BOController {
         set.add(TimeOfDayEnum.MORNING);
         set.add(TimeOfDayEnum.NOON);
         BasicActivityDTO dto = new BasicActivityDTO("activity1", "http://blabla", MediaTypeEnum.AUDIO,
-                ParticipantsEnum.ADULTS_ONLY, "Danni", 52, set);
+                ParticipantsEnum.ADULTS, "Danni", 52, set);
         return dto;
     }
 

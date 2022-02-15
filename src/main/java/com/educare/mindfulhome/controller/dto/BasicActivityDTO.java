@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
 @Getter
@@ -15,11 +18,15 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BasicActivityDTO {
+    @NotBlank
     private String name;
+    @NotBlank
     private String data;
     private MediaTypeEnum mediaType;
     private ParticipantsEnum participantsType;
     private String trainer;
+    @Min(value = 0)
     private Integer durationInSeconds;
+    @NotEmpty
     private Set<TimeOfDayEnum> recommendedTimeOfDay;
 }

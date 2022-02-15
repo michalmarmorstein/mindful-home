@@ -14,9 +14,9 @@ import java.util.UUID;
 public class ActivityEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name="activity_id")
-    private UUID id = UUID.randomUUID();
+    private UUID id;
 
     private String name;
 
