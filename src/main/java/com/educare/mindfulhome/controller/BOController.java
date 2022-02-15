@@ -33,9 +33,8 @@ public class BOController {
     public BasicActivityDTO hi() {
         Set<TimeOfDayEnum> set = new HashSet<>();
         set.add(TimeOfDayEnum.MORNING);
-        set.add(TimeOfDayEnum.NOON);
-        BasicActivityDTO dto = new BasicActivityDTO("activity1", "http://blabla", MediaTypeEnum.AUDIO,
-                ParticipantsEnum.ADULTS, "Danni", 52, set);
+        BasicActivityDTO dto = new BasicActivityDTO("activity1", "http://blabla", "description",
+                false, MediaTypeEnum.TEXT, ParticipantsEnum.ENTIRE_FAMILY, "Danni", 52, set);
         return dto;
     }
 

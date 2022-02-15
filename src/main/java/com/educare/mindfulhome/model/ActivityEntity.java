@@ -23,6 +23,10 @@ public class ActivityEntity {
     @Lob
     private String data;
 
+    private String description;
+
+    private boolean isHidden;
+
     @Enumerated(value = EnumType.STRING)
     private MediaTypeEnum mediaType;
 
