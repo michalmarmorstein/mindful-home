@@ -1,4 +1,4 @@
-package com.educare.mindfulhome.controller.payload;
+package com.educare.mindfulhome.exceptions;
 
 
 import java.util.Date;

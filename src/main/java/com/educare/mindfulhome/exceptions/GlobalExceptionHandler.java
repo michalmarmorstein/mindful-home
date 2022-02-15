@@ -1,6 +1,5 @@
 package com.educare.mindfulhome.exceptions;
 
-import com.educare.mindfulhome.controller.payload.ErrorDetails;
 import java.util.Date;
 import javax.validation.ValidationException;
 import org.springframework.http.HttpStatus;
