@@ -8,6 +8,7 @@ import com.educare.mindfulhome.repository.ActivityRepository;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -16,6 +17,7 @@ import java.util.EnumSet;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -23,44 +25,43 @@ import static org.mockito.Mockito.when;
 public class ActivityServiceImplTest {
 
     @Mock
-    private ActivityRepository repoMock;
+    private ActivityRepository mockRepo;
     @InjectMocks
     private ActivityServiceImpl service;
 
-    //TODO test entity null
-
     @Test
-    void createActivitySuccess() {
+    public void whenSaveActivity_shouldReturnActivity() {
 
-        ActivityEntity activity = new ActivityEntity(UUID.randomUUID(), "my name", "my data",
-                "my description", false,  MediaTypeEnum.AUDIO, ParticipantsEnum.ENTIRE_FAMILY,
-                "my trainer", 30, EnumSet.allOf(TimeOfDayEnum.class));
-        when(repoMock.save(activity)).thenReturn(activity);
-        ActivityEntity savedActivity = service.createActivity(activity);
-        assertThat(savedActivity.getId()).isNotNull();
-        assertThat(savedActivity.getName()).isNotNull();
-        assertThat(savedActivity.getData()).isNotNull();
-        assertThat(savedActivity.getMediaType()).isNotNull();
-        assertThat(savedActivity.getParticipantsType()).isNotNull();
-        assertThat(savedActivity.getTrainer()).isNotNull();
-        assertThat(savedActivity.getDurationInSeconds()).isNotNull();
-        assertThat(savedActivity.getRecommendedTimeOfDay()).isNotNull();
+        ActivityEntity activity = new ActivityEntity();
+        activity.setId(UUID.randomUUID());//TODO find a better way to test this (app uuid is created on repo.save())
+        activity.setName("Test name");
+        activity.setData("Test data");
+        activity.setDescription("Test description");
+        activity.setTrainer("Test trainer");
+        activity.setHidden(false);
+        activity.setDurationInSeconds(30);
+        activity.setMediaType(MediaTypeEnum.AUDIO);
+        activity.setParticipantsType(ParticipantsEnum.ENTIRE_FAMILY);
+        activity.setRecommendedTimeOfDay(EnumSet.allOf(TimeOfDayEnum.class));
 
-//        System.out.println(activity);
-//        System.out.println(savedActivity);
+        when(mockRepo.save(ArgumentMatchers.any(ActivityEntity.class))).thenReturn(activity);
 
-        //Example from pet clinic
-//        Collection<Vet> vets = this.clinicService.findAllVets();
-//        int found = vets.size();
-//
-//        Vet vet = new Vet();
-//        vet.setFirstName("John");
-//        vet.setLastName("Dow");
-//
-//        this.clinicService.saveVet(vet);
-//        assertThat(vet.getId().longValue()).isNotEqualTo(0);
-//
-//        vets = this.clinicService.findAllVets();
-//        assertThat(vets.size()).isEqualTo(found + 1);
+        ActivityEntity created = service.createActivity(activity);
+
+        assertThat(created).isEqualTo(activity);
+        verify(mockRepo).save(activity);
     }
+
+    //TODO need context for this test - find a better way to unit test this
+//    @Test
+//    public void whenSaveNullActivity_throwException() {
+//
+//        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+//            service.createActivity(null);
+//        });
+//
+//        String expectedMessage = "Entity must not be null.";
+//        String actualMessage = exception.getMessage();
+//        assertTrue(actualMessage.contains(expectedMessage));
+//    }
 }

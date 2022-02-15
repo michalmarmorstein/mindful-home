@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,10 +32,9 @@ public class BOController {
 
     @GetMapping("/activity")
     public BasicActivityDTO hi() {
-        Set<TimeOfDayEnum> set = new HashSet<>();
-        set.add(TimeOfDayEnum.MORNING);
         BasicActivityDTO dto = new BasicActivityDTO("activity1", "http://blabla", "description",
-                false, MediaTypeEnum.TEXT, ParticipantsEnum.ENTIRE_FAMILY, "Danni", 52, set);
+                false, MediaTypeEnum.TEXT, ParticipantsEnum.ENTIRE_FAMILY, "Danni", 52,
+                EnumSet.allOf(TimeOfDayEnum.class));
         return dto;
     }
 
