@@ -5,7 +5,10 @@ import com.educare.mindfulhome.repository.ActivityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.constraints.NotNull;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +20,13 @@ public class ActivityServiceImpl implements ActivityService{
         ActivityEntity savedActivity = repo.save(activity);
         repo.flush();
         return savedActivity;
+    }
+
+    @Override
+    public ActivityEntity getActivityById(UUID id) {
+
+        Optional<ActivityEntity> activityOptional = repo.findById(id);
+        return activityOptional.orElseThrow(()-> new EntityNotFoundException("Activity Not Found"));
     }
 
 

@@ -1,6 +1,7 @@
 package com.educare.mindfulhome.exceptions;
 
 import java.util.Date;
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,16 +23,27 @@ public class GlobalExceptionHandler {
 
     ErrorDetails errorDetails = new ErrorDetails(new Date(), errors.toString(),
         webRequest.getDescription(false));
-
+    //TODO add logs here
     return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
   }
 
-  @ExceptionHandler(ValidationException.class)
-  public ResponseEntity<ErrorDetails> handleValidationException(ValidationException exception,  WebRequest webRequest){
+  @ExceptionHandler({ValidationException.class, IllegalArgumentException.class})
+  public ResponseEntity<ErrorDetails> handleValidationException(RuntimeException exception,  WebRequest webRequest){
 
     ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
         webRequest.getDescription(false));
 
+    //TODO add logs here
     return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(EntityNotFoundException.class)
+  public ResponseEntity<ErrorDetails> handleEntityNotFoundException(EntityNotFoundException exception,  WebRequest webRequest){
+
+    ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
+            webRequest.getDescription(false));
+
+    //TODO add logs here
+    return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
   }
 }

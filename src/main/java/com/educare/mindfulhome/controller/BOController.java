@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/bo")
@@ -24,6 +23,9 @@ public class BOController {
     private final ActivityService activityService;
     private final ModelMapper modelMapper;
 
+    //TODO test happy scenario
+    //TODO test validation exception
+    //TODO test bad mapping (should be unit test?)
     @PostMapping("/activity")
     public FullActivityDTO createActivity(@Valid @RequestBody BasicActivityDTO activityDTO) {
         ActivityEntity savedActivity = activityService.createActivity(modelMapper.map(activityDTO, ActivityEntity.class));
@@ -36,6 +38,14 @@ public class BOController {
                 false, MediaTypeEnum.TEXT, ParticipantsEnum.ENTIRE_FAMILY, "Danni", 52,
                 EnumSet.allOf(TimeOfDayEnum.class));
         return dto;
+    }
+
+    //TODO test IllegalArgumentException - invalid UUID format
+    //TODO test happy scenario
+    @GetMapping("/activity/{id}")
+    public FullActivityDTO getActivityById(@PathVariable String id) {
+        ActivityEntity activity = activityService.getActivityById(UUID.fromString(id));
+        return modelMapper.map(activity, FullActivityDTO.class);
     }
 
 }
