@@ -3,6 +3,8 @@ package com.educare.mindfulhome.exceptions;
 import java.util.Date;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ValidationException;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -23,8 +26,10 @@ public class GlobalExceptionHandler {
 
     ErrorDetails errorDetails = new ErrorDetails(new Date(), errors.toString(),
         webRequest.getDescription(false));
-    //TODO add logs here
-    return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    ResponseEntity response = new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    log.error(exception.getMessage(), exception);
+    log.error("GlobalExceptionHandler: " + response.toString());
+    return response;
   }
 
   @ExceptionHandler({ValidationException.class, IllegalArgumentException.class})
@@ -33,8 +38,10 @@ public class GlobalExceptionHandler {
     ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
         webRequest.getDescription(false));
 
-    //TODO add logs here
-    return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    ResponseEntity response = new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    log.error(exception.getMessage(), exception);
+    log.error("GlobalExceptionHandler: " + response.toString());
+    return response;
   }
 
   @ExceptionHandler(EntityNotFoundException.class)
@@ -43,7 +50,21 @@ public class GlobalExceptionHandler {
     ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
             webRequest.getDescription(false));
 
-    //TODO add logs here
-    return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    ResponseEntity response = new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    log.error(exception.getMessage(), exception);
+    log.error("GlobalExceptionHandler: " + response.toString());
+    return response;
+  }
+
+  @ExceptionHandler(NullPointerException.class)
+  public ResponseEntity<ErrorDetails> handleInternalServerError(NullPointerException exception,  WebRequest webRequest){
+
+    ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
+            webRequest.getDescription(false));
+
+    ResponseEntity response = new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+    log.error(exception.getMessage(), exception);
+    log.error("GlobalExceptionHandler: " + response.toString());
+    return response;
   }
 }

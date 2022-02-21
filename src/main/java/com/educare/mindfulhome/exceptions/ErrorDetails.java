@@ -3,7 +3,9 @@ package com.educare.mindfulhome.exceptions;
 
 import java.util.Date;
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 @Getter
 public class ErrorDetails {
 

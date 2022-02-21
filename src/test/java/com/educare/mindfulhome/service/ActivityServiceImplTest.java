@@ -58,18 +58,18 @@ public class ActivityServiceImplTest {
         verify(mockRepo).save(activity);
     }
 
-    //TODO need context for this test - find a better way to unit test this
-//    @Test
-//    public void whenSaveNullActivity_throwException() {
-//
-//        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-//            service.createActivity(null);
-//        });
-//
-//        String expectedMessage = "Entity must not be null.";
-//        String actualMessage = exception.getMessage();
-//        assertTrue(actualMessage.contains(expectedMessage));
-//    }
+    @Test
+    public void whenSaveNullActivity_throwException() {
+
+        NullPointerException exception;
+        exception = assertThrows(NullPointerException.class, () -> {
+            service.createActivity(null);
+        });
+
+        String expectedMessage = "Activity must not be null";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
 
     @Test
     public void whenGivenId_shouldReturnActivity_ifFound() {
