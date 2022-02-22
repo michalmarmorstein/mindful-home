@@ -13,9 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.EnumSet;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -34,6 +32,7 @@ public class ActivityServiceImplTest {
     private ActivityServiceImpl service;
 
     private static ActivityEntity sampleActivity;
+    private static ActivityEntity inactiveActivity;
 
     @BeforeAll
     public static void init(){
@@ -50,6 +49,18 @@ public class ActivityServiceImplTest {
         sampleActivity.setParticipantsType(ParticipantsEnum.ENTIRE_FAMILY);
         sampleActivity.setRecommendedTimeOfDay(EnumSet.allOf(TimeOfDayEnum.class));
 
+        //Inactive activity
+        inactiveActivity = new ActivityEntity();
+        inactiveActivity.setId(UUID.randomUUID());
+        inactiveActivity.setName("Inactive activity");
+        inactiveActivity.setData("Inactive data");
+        inactiveActivity.setDescription("Inactive description");
+        inactiveActivity.setTrainer("Inactive trainer");
+        inactiveActivity.setActive(false);
+        inactiveActivity.setDurationInSeconds(90);
+        inactiveActivity.setMediaType(MediaTypeEnum.VIDEO);
+        inactiveActivity.setParticipantsType(ParticipantsEnum.ADULTS);
+        inactiveActivity.setRecommendedTimeOfDay(EnumSet.allOf(TimeOfDayEnum.class));
     }
 
     @Test
@@ -97,6 +108,28 @@ public class ActivityServiceImplTest {
         String expectedMessage = "Activity Not Found";
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    public void whenGetAllActivities_activeOnlyFalse_shouldReturnAllActivities() {
+
+        List<ActivityEntity> allActivities = new ArrayList<>(Arrays.asList(sampleActivity, inactiveActivity));
+        when(mockRepo.findAll()).thenReturn(allActivities);
+        List<ActivityEntity> expected = service.getAllActivities(false);
+
+        assertThat(expected).isEqualTo(allActivities);
+
+    }
+
+    @Test
+    public void whenGetAllActivities_activeOnlyTrue_shouldReturnActiveActivities() {
+
+        List<ActivityEntity> activeActivities =  new ArrayList<>(Arrays.asList(sampleActivity));
+        when(mockRepo.findByActiveTrue()).thenReturn(activeActivities);
+        List<ActivityEntity> expected = service.getAllActivities(true);
+
+        assertThat(expected).isEqualTo(activeActivities);
+
     }
 
 }
