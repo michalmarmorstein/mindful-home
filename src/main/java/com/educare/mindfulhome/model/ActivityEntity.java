@@ -25,7 +25,7 @@ public class ActivityEntity {
 
     private String description;
 
-    private boolean isHidden;
+    private boolean active;
 
     @Enumerated(value = EnumType.STRING)
     private MediaTypeEnum mediaType;

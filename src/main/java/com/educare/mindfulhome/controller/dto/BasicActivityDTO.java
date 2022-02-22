@@ -23,7 +23,7 @@ public class BasicActivityDTO {
     @NotBlank
     private String data;
     private String description;
-    private boolean isHidden;
+    private boolean active;
     private MediaTypeEnum mediaType;
     private ParticipantsEnum participantsType;
     private String trainer;
