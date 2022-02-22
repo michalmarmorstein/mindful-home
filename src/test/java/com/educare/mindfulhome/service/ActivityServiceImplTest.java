@@ -6,7 +6,7 @@ import com.educare.mindfulhome.model.ParticipantsEnum;
 import com.educare.mindfulhome.model.TimeOfDayEnum;
 import com.educare.mindfulhome.repository.ActivityRepository;
 import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -21,8 +21,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -35,31 +33,37 @@ public class ActivityServiceImplTest {
     @InjectMocks
     private ActivityServiceImpl service;
 
-    @Test
-    public void whenCreateActivity_shouldReturnActivity() {
+    private static ActivityEntity sampleActivity;
 
-        ActivityEntity activity = new ActivityEntity();
-        activity.setId(UUID.randomUUID());//TODO find a better way to test this (app uuid is created on repo.save())
-        activity.setName("Test name");
-        activity.setData("Test data");
-        activity.setDescription("Test description");
-        activity.setTrainer("Test trainer");
-        activity.setHidden(false);
-        activity.setDurationInSeconds(30);
-        activity.setMediaType(MediaTypeEnum.AUDIO);
-        activity.setParticipantsType(ParticipantsEnum.ENTIRE_FAMILY);
-        activity.setRecommendedTimeOfDay(EnumSet.allOf(TimeOfDayEnum.class));
+    @BeforeAll
+    public static void init(){
 
-        when(mockRepo.save(any(ActivityEntity.class))).thenReturn(activity);
+        sampleActivity = new ActivityEntity();
+        sampleActivity.setId(UUID.randomUUID());//TODO find a better way to test this (app uuid is created on repo.save())
+        sampleActivity.setName("Test name");
+        sampleActivity.setData("Test data");
+        sampleActivity.setDescription("Test description");
+        sampleActivity.setTrainer("Test trainer");
+        sampleActivity.setActive(true);
+        sampleActivity.setDurationInSeconds(30);
+        sampleActivity.setMediaType(MediaTypeEnum.AUDIO);
+        sampleActivity.setParticipantsType(ParticipantsEnum.ENTIRE_FAMILY);
+        sampleActivity.setRecommendedTimeOfDay(EnumSet.allOf(TimeOfDayEnum.class));
 
-        ActivityEntity created = service.createActivity(activity);
-
-        assertThat(created).isEqualTo(activity);
-        verify(mockRepo).save(activity);
     }
 
     @Test
-    public void whenSaveNullActivity_throwException() {
+    public void whenCreateActivity_shouldReturnActivity() {
+
+        when(mockRepo.save(any(ActivityEntity.class))).thenReturn(sampleActivity);
+        ActivityEntity created = service.createActivity(sampleActivity);
+
+        assertThat(created).isEqualTo(sampleActivity);
+        verify(mockRepo).save(sampleActivity);
+    }
+
+    @Test
+    public void whenCreateActivityWithNull_throwException() {
 
         NullPointerException exception;
         exception = assertThrows(NullPointerException.class, () -> {
@@ -72,22 +76,19 @@ public class ActivityServiceImplTest {
     }
 
     @Test
-    public void whenGivenId_shouldReturnActivity_ifFound() {
-        ActivityEntity activity = new ActivityEntity();
-        activity.setId(UUID.randomUUID());
+    public void whenGetActivityById_shouldReturnActivity_ifFound() {
 
-        when(mockRepo.findById(activity.getId())).thenReturn(Optional.of(activity));
+        when(mockRepo.findById(sampleActivity.getId())).thenReturn(Optional.of(sampleActivity));
+        ActivityEntity expected = service.getActivityById(sampleActivity.getId());
 
-        ActivityEntity expected = service.getActivityById(activity.getId());
-
-        assertThat(expected).isEqualTo(activity);
-        verify(mockRepo).findById(activity.getId());
+        assertThat(expected).isEqualTo(sampleActivity);
+        verify(mockRepo).findById(sampleActivity.getId());
     }
 
     @Test
-    public void should_throw_exception_when_activity_by_id_doesnt_exist() {
+    public void whenGetActivityById_idDoesNotExist_shouldThrowException() {
 
-        given(mockRepo.findById(any(UUID.class))).willReturn(Optional.ofNullable(null));
+        when(mockRepo.findById(any(UUID.class))).thenReturn(Optional.ofNullable(null));
 
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
             service.getActivityById(UUID.randomUUID());

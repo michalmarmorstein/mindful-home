@@ -1,5 +1,6 @@
 package com.educare.mindfulhome.controller;
 
+import com.educare.mindfulhome.controller.dto.ActivityListDTO;
 import com.educare.mindfulhome.controller.dto.BasicActivityDTO;
 import com.educare.mindfulhome.controller.dto.FullActivityDTO;
 import com.educare.mindfulhome.model.ActivityEntity;
@@ -9,11 +10,13 @@ import com.educare.mindfulhome.model.TimeOfDayEnum;
 import com.educare.mindfulhome.service.ActivityService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.EnumSet;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/bo")
@@ -46,6 +49,25 @@ public class BOController {
     public FullActivityDTO getActivityById(@PathVariable String id) {
         ActivityEntity activity = activityService.getActivityById(UUID.fromString(id));
         return modelMapper.map(activity, FullActivityDTO.class);
+    }
+
+    //TODO test happy scenario active + all
+    //TODO test empty list or null value NOTFOUND status code
+    //TODO test failed mapping
+    //TODO no requestparam
+    //TODO invalid requestparam
+    //TODO invalid requestparam value
+    @GetMapping("/activities")
+    public ResponseEntity<ActivityListDTO> listActivities(@RequestParam boolean activeOnly){
+        List<ActivityEntity> activities = activityService.getAllActivities(activeOnly);
+        if(activities == null || activities.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        List<FullActivityDTO> activitiesDTO = activities.stream()
+                .map(entity -> modelMapper.map(entity, FullActivityDTO.class))
+                .collect(Collectors.toList());
+        ActivityListDTO activityList = new ActivityListDTO(activitiesDTO);
+        return new ResponseEntity<>(activityList, HttpStatus.OK);
     }
 
 }
