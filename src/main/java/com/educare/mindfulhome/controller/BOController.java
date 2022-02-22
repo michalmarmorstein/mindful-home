@@ -54,11 +54,11 @@ public class BOController {
     //TODO test happy scenario active + all
     //TODO test empty list or null value NOTFOUND status code
     //TODO test failed mapping
-    //TODO no requestparam
-    //TODO invalid requestparam
+    //TODO no requestparam - default false
+    //TODO invalid requestparam key
     //TODO invalid requestparam value
     @GetMapping("/activities")
-    public ResponseEntity<ActivityListDTO> listActivities(@RequestParam boolean activeOnly){
+    public ResponseEntity<ActivityListDTO> listActivities(@RequestParam(defaultValue = "false") boolean activeOnly){
         List<ActivityEntity> activities = activityService.getAllActivities(activeOnly);
         if(activities == null || activities.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
