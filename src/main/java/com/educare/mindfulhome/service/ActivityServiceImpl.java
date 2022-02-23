@@ -47,5 +47,23 @@ public class ActivityServiceImpl implements ActivityService{
         return activities;
     }
 
+    //TODO test null activity
+    //TODO Test dto with no id
+    //TODO Test dto with invalid id
+    //TODO Test dto with not existing id - EntityNotFoundException
+
+    @Override
+    public ActivityEntity updateActivity(ActivityEntity activity) {
+        if(activity == null){
+            log.error("Activity must not be null");
+            throw new NullPointerException("Activity must not be null");
+        }
+        //Check the activity exists
+        getActivityById(activity.getId());
+        ActivityEntity savedActivity = repo.save(activity);
+        repo.flush();
+        return savedActivity;
+    }
+
 
 }

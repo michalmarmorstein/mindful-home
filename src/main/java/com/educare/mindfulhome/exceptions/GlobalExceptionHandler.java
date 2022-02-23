@@ -7,6 +7,7 @@ import javax.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -32,7 +33,8 @@ public class GlobalExceptionHandler {
     return response;
   }
 
-  @ExceptionHandler({ValidationException.class, IllegalArgumentException.class})
+  //TODO do we want to send the client the full message in case of HttpMessageNotReadableException
+  @ExceptionHandler({ValidationException.class, IllegalArgumentException.class, HttpMessageNotReadableException.class})
   public ResponseEntity<ErrorDetails> handleValidationException(RuntimeException exception,  WebRequest webRequest){
 
     ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
