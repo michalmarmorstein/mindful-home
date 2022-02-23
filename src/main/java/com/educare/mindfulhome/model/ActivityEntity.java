@@ -1,6 +1,7 @@
 package com.educare.mindfulhome.model;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -16,6 +17,7 @@ public class ActivityEntity {
     @Id
     @GeneratedValue
     @Column(name="activity_id")
+    @Type(type="uuid-char")
     private UUID id;
 
     private String name;
