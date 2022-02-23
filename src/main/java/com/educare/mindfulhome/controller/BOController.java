@@ -71,11 +71,12 @@ public class BOController {
         return new ResponseEntity<>(activityList, HttpStatus.OK);
     }
 
+    //TODO test happy scenario
     //TODO Test dto with no id
     //TODO Test dto with invalid id
     //TODO Test dto with not existing id - NOT found response
     @PutMapping("/activities")
-    public FullActivityDTO updatePet(@Valid @RequestBody FullActivityDTO activityDTO) {
+    public FullActivityDTO updateActivity(@Valid @RequestBody FullActivityDTO activityDTO) {
         ActivityEntity updatedActivity = activityService.updateActivity(modelMapper.map(activityDTO, ActivityEntity.class));
         return modelMapper.map(updatedActivity, FullActivityDTO.class);
     }
