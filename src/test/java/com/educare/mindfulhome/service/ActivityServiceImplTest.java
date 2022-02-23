@@ -74,7 +74,7 @@ public class ActivityServiceImplTest {
     }
 
     @Test
-    public void whenCreateActivityWithNull_throwException() {
+    public void whenCreateActivity_withNullArg_shouldThrowNullPointerException() {
 
         NullPointerException exception;
         exception = assertThrows(NullPointerException.class, () -> {
@@ -97,7 +97,7 @@ public class ActivityServiceImplTest {
     }
 
     @Test
-    public void whenGetActivityById_idDoesNotExist_shouldThrowException() {
+    public void whenGetActivityById_idDoesNotExist_shouldThrowEntityNotFoundException() {
 
         when(mockRepo.findById(any(UUID.class))).thenReturn(Optional.ofNullable(null));
 
@@ -130,6 +130,57 @@ public class ActivityServiceImplTest {
 
         assertThat(expected).isEqualTo(activeActivities);
 
+    }
+
+    @Test
+    public void whenUpdateActivity_shouldReturnUpdatedActivity_ifFound() {
+
+        ActivityEntity updatedActivity = new ActivityEntity();
+        updatedActivity.setId(sampleActivity.getId());
+        updatedActivity.setName("New name");
+        updatedActivity.setData("New data");
+        updatedActivity.setDescription("New description");
+        updatedActivity.setTrainer("New trainer");
+        updatedActivity.setActive(false);
+        updatedActivity.setDurationInSeconds(22);
+        updatedActivity.setMediaType(MediaTypeEnum.VIDEO);
+        updatedActivity.setParticipantsType(ParticipantsEnum.KIDS);
+        updatedActivity.setRecommendedTimeOfDay(new ArrayList<>(Arrays.asList(TimeOfDayEnum.MORNING)));
+
+        when(mockRepo.findById(sampleActivity.getId())).thenReturn(Optional.of(sampleActivity));
+        when(mockRepo.save(any(ActivityEntity.class))).thenReturn(updatedActivity);
+
+        ActivityEntity created = service.updateActivity(updatedActivity);
+
+        assertThat(created).isEqualTo(updatedActivity);
+        assertThat(created.getId()).isEqualTo(sampleActivity.getId());
+        verify(mockRepo).save(updatedActivity);
+    }
+
+    @Test
+    public void whenUpdateActivity_withNullArg_shouldThrowNullPointerException() {
+
+        NullPointerException exception;
+        exception = assertThrows(NullPointerException.class, () -> {
+            service.updateActivity(null);
+        });
+
+        String expectedMessage = "Activity must not be null";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    public void whenUpdateActivity_idDoesNotExist_shouldThrowEntityNotFoundException() {
+
+        ActivityEntity emptyActivity = new ActivityEntity();
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+            service.updateActivity(emptyActivity);
+        });
+
+        String expectedMessage = "Activity Not Found";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 
 }
