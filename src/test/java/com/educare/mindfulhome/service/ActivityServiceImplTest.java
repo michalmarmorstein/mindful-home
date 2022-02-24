@@ -111,6 +111,18 @@ public class ActivityServiceImplTest {
     }
 
     @Test
+    public void whenGetActivityById_idIsNull_shouldThrowIllegalArgumentException() {
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            service.getActivityById(null);
+        });
+
+        String expectedMessage = "The given id must not be null";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
     public void whenGetAllActivities_activeOnlyFalse_shouldReturnAllActivities() {
 
         List<ActivityEntity> allActivities = new ArrayList<>(Arrays.asList(sampleActivity, inactiveActivity));
@@ -173,12 +185,26 @@ public class ActivityServiceImplTest {
     @Test
     public void whenUpdateActivity_idDoesNotExist_shouldThrowEntityNotFoundException() {
 
-        ActivityEntity emptyActivity = new ActivityEntity();
+        ActivityEntity invalidIdActivity = new ActivityEntity();
+        invalidIdActivity.setId(UUID.randomUUID());
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            service.updateActivity(emptyActivity);
+            service.updateActivity(invalidIdActivity);
         });
 
         String expectedMessage = "Activity Not Found";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    public void whenUpdateActivity_idIsNull_shouldThrowIllegalArgumentException() {
+
+        ActivityEntity emptyActivity = new ActivityEntity();
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            service.updateActivity(emptyActivity);
+        });
+
+        String expectedMessage = "The given id must not be null";
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
     }

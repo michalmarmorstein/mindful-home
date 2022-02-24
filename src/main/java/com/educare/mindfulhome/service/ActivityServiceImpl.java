@@ -30,7 +30,9 @@ public class ActivityServiceImpl implements ActivityService{
 
     @Override
     public ActivityEntity getActivityById(UUID id) {
-
+        if(id == null){
+            throw new IllegalArgumentException("The given id must not be null");
+        }
         Optional<ActivityEntity> activityOptional = repo.findById(id);
         return activityOptional.orElseThrow(()-> new EntityNotFoundException("Activity Not Found"));
     }

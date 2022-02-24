@@ -17,7 +17,7 @@ public class ActivityEntity {
     @Id
     @GeneratedValue
     @Column(name="activity_id")
-    @Type(type="uuid-char")
+    @Type(type="uuid-char")//Needed for MySQL
     private UUID id;
 
     private String name;
