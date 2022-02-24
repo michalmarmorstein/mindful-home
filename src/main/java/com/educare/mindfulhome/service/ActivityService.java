@@ -9,4 +9,5 @@ public interface ActivityService {
     public ActivityEntity createActivity(ActivityEntity activity);
     public ActivityEntity getActivityById(UUID id);
     public List<ActivityEntity> getAllActivities(boolean activeOnly);
+    public ActivityEntity updateActivity(ActivityEntity activity);
 }
