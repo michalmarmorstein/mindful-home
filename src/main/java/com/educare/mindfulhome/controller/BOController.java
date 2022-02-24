@@ -29,6 +29,7 @@ public class BOController {
     //TODO test happy scenario
     //TODO test validation exception
     //TODO test bad mapping (should be unit test?)
+    //TODO test empty ActivityEntity - default values
     @PostMapping("/activities")
     public FullActivityDTO createActivity(@Valid @RequestBody BasicActivityDTO activityDTO) {
         ActivityEntity savedActivity = activityService.createActivity(modelMapper.map(activityDTO, ActivityEntity.class));

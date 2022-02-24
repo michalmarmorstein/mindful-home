@@ -5,6 +5,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.UUID;
 
 @Data
@@ -20,20 +21,20 @@ public class ActivityEntity {
     @Type(type="uuid-char")//Needed for MySQL
     private UUID id;
 
-    private String name;
+    private String name = "N/A";
 
     @Lob
     private String data;
 
     private String description;
 
-    private boolean active;
+    private boolean active = true;
 
     @Enumerated(value = EnumType.STRING)
-    private MediaTypeEnum mediaType;
+    private MediaTypeEnum mediaType = MediaTypeEnum.TEXT;
 
     @Enumerated(value = EnumType.STRING)
-    private ParticipantsEnum participantsType;
+    private ParticipantsEnum participantsType = ParticipantsEnum.ENTIRE_FAMILY;
 
     private String trainer;
 
@@ -42,6 +43,6 @@ public class ActivityEntity {
     @ElementCollection
     @CollectionTable(name="ACTIVITY_TIME_OF_DAY")
     @Enumerated(EnumType.STRING)
-    private Collection<TimeOfDayEnum> recommendedTimeOfDay;
+    private Collection<TimeOfDayEnum> recommendedTimeOfDay = EnumSet.allOf(TimeOfDayEnum.class);;
 
 }
