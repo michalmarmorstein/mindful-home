@@ -9,6 +9,7 @@ import com.educare.mindfulhome.model.ParticipantsEnum;
 import com.educare.mindfulhome.model.TimeOfDayEnum;
 import com.educare.mindfulhome.service.ActivityService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequestMapping("/bo")
 @RequiredArgsConstructor
@@ -32,7 +34,9 @@ public class BOController {
     //TODO test empty ActivityEntity - default values
     @PostMapping("/activities")
     public FullActivityDTO createActivity(@Valid @RequestBody BasicActivityDTO activityDTO) {
+        log.debug("BOController:createActivity() - req" + activityDTO);
         ActivityEntity savedActivity = activityService.createActivity(modelMapper.map(activityDTO, ActivityEntity.class));
+        log.debug("BOController:createActivity() - res" + savedActivity);
         return modelMapper.map(savedActivity, FullActivityDTO.class);
     }
 
@@ -49,7 +53,9 @@ public class BOController {
     //TODO test happy scenario
     @GetMapping("/activities/{id}")
     public FullActivityDTO getActivityById(@PathVariable String id) {
+        log.debug("BOController:getActivityById() - req" + id);
         ActivityEntity activity = activityService.getActivityById(UUID.fromString(id));
+        log.debug("BOController:getActivityById() - res" + activity);
         return modelMapper.map(activity, FullActivityDTO.class);
     }
 
@@ -61,6 +67,7 @@ public class BOController {
     //TODO invalid requestparam value
     @GetMapping("/activities")
     public ResponseEntity<ActivityListDTO> listActivities(@RequestParam(defaultValue = "false") boolean activeOnly){
+        log.debug("BOController:listActivities() - req" + activeOnly);
         List<ActivityEntity> activities = activityService.getAllActivities(activeOnly);
         if(activities == null || activities.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -69,6 +76,7 @@ public class BOController {
                 .map(entity -> modelMapper.map(entity, FullActivityDTO.class))
                 .collect(Collectors.toList());
         ActivityListDTO activityList = new ActivityListDTO(activitiesDTO);
+        log.debug("BOController:listActivities() - res" + Arrays.toString(activityList.getActivities().toArray()));
         return new ResponseEntity<>(activityList, HttpStatus.OK);
     }
 
@@ -78,7 +86,9 @@ public class BOController {
     //TODO Test dto with not existing id - NOT found response
     @PutMapping("/activities")
     public FullActivityDTO updateActivity(@Valid @RequestBody FullActivityDTO activityDTO) {
+        log.debug("BOController:createActivity() - req" + activityDTO);
         ActivityEntity updatedActivity = activityService.updateActivity(modelMapper.map(activityDTO, ActivityEntity.class));
+        log.debug("BOController:createActivity() - res" + updatedActivity);
         return modelMapper.map(updatedActivity, FullActivityDTO.class);
     }
 
