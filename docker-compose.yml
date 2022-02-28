@@ -9,14 +9,14 @@ services:
       - MYSQL_DATABASE=mindfuldb
     ports:
       - 3306:3306
-#    volumes:
-#      - db:/var/lib/mysql
-  app:
+    volumes:
+    - ./db:/var/lib/mysql
+  mindful-rest:
     depends_on:
       - mysqldb
     build: .
-    image: mindful-home
-    container_name: mindful-app
+    image: mindful-rest
+    container_name: mindful-rest-app
     restart: on-failure
     ports:
       - 8080:8080
@@ -32,7 +32,5 @@ services:
 ##      - .m2:/root/.m2
 ##    stdin_open: true
 ##    tty: true
-#volumes:
-#  db:
-#
-#
+volumes:
+  db:
