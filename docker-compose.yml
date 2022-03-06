@@ -34,5 +34,8 @@ services:
 ##      - .m2:/root/.m2
 ##    stdin_open: true
 ##    tty: true
-volumes:
-  db:
+#volumes:
+#  db:
+#    name: mindful-data
+#    external: true
+
