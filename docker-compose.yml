@@ -4,30 +4,32 @@ services:
     image: mysql
     container_name: mysqldb
     restart: unless-stopped
+    env_file: ./.env
     environment:
-      - MYSQL_ROOT_PASSWORD=michal
-      - MYSQL_DATABASE=mindfuldb
+      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+      - MYSQL_DATABASE=$MYSQLDB_DATABASE
     ports:
-      - 3306:3306
+      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
     volumes:
     - ./db:/var/lib/mysql
-  mindful-rest:
+  mindful-app:
     depends_on:
       - mysqldb
     build: .
-    image: mindful-rest
-    container_name: mindful-rest-app
+    image: mindful-rest-app
+    container_name: mindful-app
     restart: on-failure
+    env_file: ./.env
     ports:
-      - 8080:8080
-##    environment:
-##      SPRING_APPLICATION_JSON: '{
-##        "spring.datasource.url"  : "jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?useSSL=false",
-##        "spring.datasource.username" : "$MYSQLDB_USER",
-##        "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
-##        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
-##        "spring.jpa.hibernate.ddl-auto" : "update"
-##      }'
+      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+#    environment:
+#      SPRING_APPLICATION_JSON: '{
+#        "spring.datasource.url"  : "jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?useSSL=false",
+#        "spring.datasource.username" : "$MYSQLDB_USER",
+#        "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
+#        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
+#        "spring.jpa.hibernate.ddl-auto" : "update"
+#      }'
 ##    volumes:
 ##      - .m2:/root/.m2
 ##    stdin_open: true
