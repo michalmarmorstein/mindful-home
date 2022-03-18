@@ -47,5 +47,18 @@ public class ActivityServiceImpl implements ActivityService{
         return activities;
     }
 
+    @Override
+    public ActivityEntity updateActivity(ActivityEntity activity) {
+        if(activity == null){
+            log.error("Activity must not be null");
+            throw new NullPointerException("Activity must not be null");
+        }
+        //Check the activity exists
+        getActivityById(activity.getId());
+        ActivityEntity savedActivity = repo.save(activity);
+        repo.flush();
+        return savedActivity;
+    }
+
 
 }

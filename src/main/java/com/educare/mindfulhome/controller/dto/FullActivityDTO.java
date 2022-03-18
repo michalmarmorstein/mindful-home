@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 import java.util.UUID;
 
@@ -16,6 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class FullActivityDTO extends BasicActivityDTO{
 
+    @NotNull
     private UUID id;
 
     public FullActivityDTO(String name, String data,
