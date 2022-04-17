@@ -3,16 +3,14 @@ package com.educare.mindfulhome.controller.dto;
 import com.educare.mindfulhome.model.MediaTypeEnum;
 import com.educare.mindfulhome.model.ParticipantsEnum;
 import com.educare.mindfulhome.model.TimeOfDayEnum;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
+@ToString
 @Getter
 @Setter
 @AllArgsConstructor
