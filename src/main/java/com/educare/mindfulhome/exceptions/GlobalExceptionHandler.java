@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
     ErrorDetails errorDetails = new ErrorDetails(new Date(), errors.toString(),
         webRequest.getDescription(false));
     ResponseEntity response = new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
-    //    log.error(exception.getMessage(), exception); //Not sure we want to print on bad requests
+        log.error(exception.getMessage(), exception); //Not sure we want to print on bad requests
     log.error("GlobalExceptionHandler: " + response.toString());
     return response;
   }
@@ -41,8 +41,8 @@ public class GlobalExceptionHandler {
         webRequest.getDescription(false));
 
     ResponseEntity response = new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
-    //    log.error(exception.getMessage(), exception); //Not sure we want to print on bad requests
-    log.error("GlobalExceptionHandler: " + response.toString());
+        log.error(exception.getMessage(), exception); //Not sure we want to print on bad requests
+    log.error("GlobalExceptionHandler: " + response);
     return response;
   }
 

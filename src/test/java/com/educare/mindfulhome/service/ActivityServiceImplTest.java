@@ -87,6 +87,20 @@ public class ActivityServiceImplTest {
     }
 
     @Test
+    public void whenCreateActivity_emptyActivity_shouldReturnDefaultActivity() {
+
+        when(mockRepo.save(any(ActivityEntity.class))).thenReturn(new ActivityEntity());
+        ActivityEntity created = service.createActivity(new ActivityEntity());
+
+        assertThat(created.getRecommendedTimeOfDay()).isEqualTo(EnumSet.allOf(TimeOfDayEnum.class));
+        assertThat(created.getParticipantsType()).isEqualTo(ParticipantsEnum.ENTIRE_FAMILY);
+        assertThat(created.getMediaType()).isEqualTo(MediaTypeEnum.TEXT);
+        assertThat(created.getName()).isEqualTo("N/A");
+        assertThat(created.isActive()).isEqualTo(true);
+        verify(mockRepo).save(new ActivityEntity());
+    }
+
+    @Test
     public void whenGetActivityById_shouldReturnActivity_ifFound() {
 
         when(mockRepo.findById(sampleActivity.getId())).thenReturn(Optional.of(sampleActivity));
@@ -106,6 +120,18 @@ public class ActivityServiceImplTest {
         });
 
         String expectedMessage = "Activity Not Found";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    public void whenGetActivityById_idIsNull_shouldThrowIllegalArgumentException() {
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            service.getActivityById(null);
+        });
+
+        String expectedMessage = "The given id must not be null";
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
     }
@@ -173,9 +199,10 @@ public class ActivityServiceImplTest {
     @Test
     public void whenUpdateActivity_idDoesNotExist_shouldThrowEntityNotFoundException() {
 
-        ActivityEntity emptyActivity = new ActivityEntity();
+        ActivityEntity invalidIdActivity = new ActivityEntity();
+        invalidIdActivity.setId(UUID.randomUUID());
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            service.updateActivity(emptyActivity);
+            service.updateActivity(invalidIdActivity);
         });
 
         String expectedMessage = "Activity Not Found";
@@ -183,4 +210,38 @@ public class ActivityServiceImplTest {
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
+    @Test
+    public void whenUpdateActivity_idIsNull_shouldThrowIllegalArgumentException() {
+
+        ActivityEntity emptyActivity = new ActivityEntity();
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            service.updateActivity(emptyActivity);
+        });
+
+        String expectedMessage = "The given id must not be null";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    public void whenUpdateActivity_emptyActivity_shouldReturnDefaultActivity() {
+
+        UUID id = UUID.randomUUID();
+        ActivityEntity emptyActivity = new ActivityEntity();
+        emptyActivity.setId(id);
+        ActivityEntity returnedActivity = new ActivityEntity();
+        returnedActivity.setId(id);
+
+        when(mockRepo.findById(id)).thenReturn(Optional.of(returnedActivity));
+        when(mockRepo.save(any(ActivityEntity.class))).thenReturn(returnedActivity);
+
+        ActivityEntity created = service.updateActivity(emptyActivity);
+
+        assertThat(created.getRecommendedTimeOfDay()).isEqualTo(EnumSet.allOf(TimeOfDayEnum.class));
+        assertThat(created.getParticipantsType()).isEqualTo(ParticipantsEnum.ENTIRE_FAMILY);
+        assertThat(created.getMediaType()).isEqualTo(MediaTypeEnum.TEXT);
+        assertThat(created.getName()).isEqualTo("N/A");
+        assertThat(created.isActive()).isEqualTo(true);
+        verify(mockRepo).save(emptyActivity);
+    }
 }

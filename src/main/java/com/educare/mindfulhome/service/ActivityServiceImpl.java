@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -31,7 +30,9 @@ public class ActivityServiceImpl implements ActivityService{
 
     @Override
     public ActivityEntity getActivityById(UUID id) {
-
+        if(id == null){
+            throw new IllegalArgumentException("The given id must not be null");
+        }
         Optional<ActivityEntity> activityOptional = repo.findById(id);
         return activityOptional.orElseThrow(()-> new EntityNotFoundException("Activity Not Found"));
     }
