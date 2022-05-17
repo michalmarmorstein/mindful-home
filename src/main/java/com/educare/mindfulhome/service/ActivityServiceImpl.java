@@ -17,6 +17,7 @@ import java.util.UUID;
 public class ActivityServiceImpl implements ActivityService{
 
     private final ActivityRepository repo;
+    //TODO should we save activities in memory for better performance (cache) - more reads than writes
 
     public ActivityEntity createActivity(ActivityEntity activity){
         if(activity == null){
