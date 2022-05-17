@@ -20,6 +20,7 @@ public class BasicActivityDTO {
     private String name;
     @NotBlank
     private String data;
+    private String imageUrl;
     private String description;
     private boolean active;
     private MediaTypeEnum mediaType;

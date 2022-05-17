@@ -20,10 +20,10 @@ public class FullActivityDTO extends BasicActivityDTO{
     @NotNull
     private UUID id;
 
-    public FullActivityDTO(String name, String data,
+    public FullActivityDTO(String name, String data, String imgUrl,
                            String description, boolean active, MediaTypeEnum mediaType, ParticipantsEnum participantsType,
                            String trainer, Integer durationInSeconds, Set<TimeOfDayEnum> recommendedTimeOfDay, UUID id) {
-        super(name, data, description, active, mediaType, participantsType, trainer, durationInSeconds, recommendedTimeOfDay);
+        super(name, data, imgUrl, description, active, mediaType, participantsType, trainer, durationInSeconds, recommendedTimeOfDay);
         this.id = id;
     }
 }

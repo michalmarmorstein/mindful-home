@@ -41,6 +41,7 @@ public class ActivityServiceImplTest {
         sampleActivity.setId(UUID.randomUUID());//TODO find a better way to test this (app uuid is created on repo.save())
         sampleActivity.setName("Test name");
         sampleActivity.setData("Test data");
+        sampleActivity.setImageUrl("image URL");
         sampleActivity.setDescription("Test description");
         sampleActivity.setTrainer("Test trainer");
         sampleActivity.setActive(true);
@@ -54,6 +55,7 @@ public class ActivityServiceImplTest {
         inactiveActivity.setId(UUID.randomUUID());
         inactiveActivity.setName("Inactive activity");
         inactiveActivity.setData("Inactive data");
+        sampleActivity.setImageUrl("Inactive image URL");
         inactiveActivity.setDescription("Inactive description");
         inactiveActivity.setTrainer("Inactive trainer");
         inactiveActivity.setActive(false);
@@ -165,6 +167,7 @@ public class ActivityServiceImplTest {
         updatedActivity.setId(sampleActivity.getId());
         updatedActivity.setName("New name");
         updatedActivity.setData("New data");
+        updatedActivity.setImageUrl("New image URL");
         updatedActivity.setDescription("New description");
         updatedActivity.setTrainer("New trainer");
         updatedActivity.setActive(false);

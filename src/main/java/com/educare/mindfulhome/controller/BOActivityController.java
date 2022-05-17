@@ -43,7 +43,7 @@ public class BOActivityController {
     //TODO delete this
     @GetMapping("/test")
     public BasicActivityDTO hi() {
-        BasicActivityDTO dto = new BasicActivityDTO("activity1", "http://blabla", "description",
+        BasicActivityDTO dto = new BasicActivityDTO("activity1", "http://blabla", "image", "description",
                 false, MediaTypeEnum.TEXT, ParticipantsEnum.ENTIRE_FAMILY, "Danni", 52,
                 EnumSet.allOf(TimeOfDayEnum.class));
         return dto;
