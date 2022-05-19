@@ -16,7 +16,7 @@ services:
     depends_on:
       - mysqldb
     build: .
-    image: mindful-rest-app
+    image: michalgad/mindful-rest-app
     container_name: mindful-app
     restart: on-failure
     env_file: ./.env
