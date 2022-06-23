@@ -1,7 +1,7 @@
-package com.educare.mindfulhome.controller.dto;
+package com.educare.mindfulhome.activities.controller.dto;
 
-import com.educare.mindfulhome.model.MediaTypeEnum;
-import com.educare.mindfulhome.model.ParticipantsEnum;
+import com.educare.mindfulhome.activities.model.MediaTypeEnum;
+import com.educare.mindfulhome.activities.model.ParticipantsEnum;
 import com.educare.mindfulhome.model.TimeOfDayEnum;
 import lombok.*;
 

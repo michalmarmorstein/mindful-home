@@ -1,4 +1,4 @@
-package com.educare.mindfulhome.controller.dto;
+package com.educare.mindfulhome.activities.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

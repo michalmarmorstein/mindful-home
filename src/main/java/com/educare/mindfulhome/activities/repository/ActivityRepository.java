@@ -1,6 +1,6 @@
-package com.educare.mindfulhome.repository;
+package com.educare.mindfulhome.activities.repository;
 
-import com.educare.mindfulhome.model.ActivityEntity;
+import com.educare.mindfulhome.activities.model.ActivityEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

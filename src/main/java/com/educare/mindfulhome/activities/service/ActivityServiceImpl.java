@@ -1,7 +1,7 @@
-package com.educare.mindfulhome.service;
+package com.educare.mindfulhome.activities.service;
 
-import com.educare.mindfulhome.model.ActivityEntity;
-import com.educare.mindfulhome.repository.ActivityRepository;
+import com.educare.mindfulhome.activities.model.ActivityEntity;
+import com.educare.mindfulhome.activities.repository.ActivityRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

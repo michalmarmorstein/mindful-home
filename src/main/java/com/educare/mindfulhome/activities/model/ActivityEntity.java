@@ -1,5 +1,6 @@
-package com.educare.mindfulhome.model;
+package com.educare.mindfulhome.activities.model;
 
+import com.educare.mindfulhome.model.TimeOfDayEnum;
 import lombok.*;
 import org.hibernate.annotations.Type;
 

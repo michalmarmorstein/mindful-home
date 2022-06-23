@@ -1,10 +1,11 @@
-package com.educare.mindfulhome.service;
+package com.educare.mindfulhome.activities.service;
 
-import com.educare.mindfulhome.model.ActivityEntity;
-import com.educare.mindfulhome.model.MediaTypeEnum;
-import com.educare.mindfulhome.model.ParticipantsEnum;
+import com.educare.mindfulhome.activities.model.ActivityEntity;
+import com.educare.mindfulhome.activities.model.MediaTypeEnum;
+import com.educare.mindfulhome.activities.model.ParticipantsEnum;
+import com.educare.mindfulhome.activities.service.ActivityServiceImpl;
 import com.educare.mindfulhome.model.TimeOfDayEnum;
-import com.educare.mindfulhome.repository.ActivityRepository;
+import com.educare.mindfulhome.activities.repository.ActivityRepository;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;

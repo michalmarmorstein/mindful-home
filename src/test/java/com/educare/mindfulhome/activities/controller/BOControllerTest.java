@@ -1,8 +1,9 @@
-package com.educare.mindfulhome.controller;
+package com.educare.mindfulhome.activities.controller;
 
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
+import com.educare.mindfulhome.activities.controller.BOActivityController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

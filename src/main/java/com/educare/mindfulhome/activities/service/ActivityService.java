@@ -1,6 +1,6 @@
-package com.educare.mindfulhome.service;
+package com.educare.mindfulhome.activities.service;
 
-import com.educare.mindfulhome.model.ActivityEntity;
+import com.educare.mindfulhome.activities.model.ActivityEntity;
 
 import java.util.List;
 import java.util.UUID;
