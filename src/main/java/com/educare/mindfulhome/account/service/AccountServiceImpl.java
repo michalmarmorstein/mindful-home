@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -19,9 +20,11 @@ public class AccountServiceImpl implements AccountService {
             log.error("Family must not be null");
             throw new NullPointerException("Family must not be null");
         }
+        family.linkMembers();
         FamilyEntity savedFamily = repo.save(family);
         repo.flush();
         return savedFamily;
     }
 
 }
+

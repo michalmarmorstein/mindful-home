@@ -1,13 +1,14 @@
 package com.educare.mindfulhome.account.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Data
+@Setter
+@Getter
+@EqualsAndHashCode(exclude = "family")
+@ToString(exclude = "family")
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -26,6 +27,9 @@ public class MemberEntity {
     private FamilyRoleEnum role;
     private int yearOfBirth;
     private String imageUrl;
+    private long phoneNumber; //TODO add support for this
+    private int notification; //TODO add support for this
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "family_id")

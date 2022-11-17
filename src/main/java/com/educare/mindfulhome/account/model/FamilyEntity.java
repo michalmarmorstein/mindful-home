@@ -1,8 +1,6 @@
 package com.educare.mindfulhome.account.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -32,14 +30,12 @@ public class FamilyEntity {
     @OneToMany(mappedBy = "family", cascade = CascadeType.ALL)
     private Set<MemberEntity> members;
 
-    //private int notification
-
-//    public void addMember(MemberEntity member){
-//        if(members == null){
-//            members = new HashSet<>();
-//        }
-//        members.add(member);
-////        member.setFamily(this);
-//    }
+    public void linkMembers(){
+        if(members != null){
+            for(MemberEntity member : members){
+                member.setFamily(this);
+            }
+        }
+    }
 
 }
