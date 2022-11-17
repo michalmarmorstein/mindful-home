@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Slf4j
 @Service
@@ -24,6 +26,12 @@ public class AccountServiceImpl implements AccountService {
         FamilyEntity savedFamily = repo.save(family);
         repo.flush();
         return savedFamily;
+    }
+
+    @Override
+    public List<FamilyEntity> getAllFamilies() {
+        List<FamilyEntity> families = repo.findAll();
+        return families;
     }
 
 }
