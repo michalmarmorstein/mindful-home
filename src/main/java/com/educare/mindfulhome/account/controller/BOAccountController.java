@@ -4,6 +4,8 @@ import com.educare.mindfulhome.account.controller.dto.FamilyDTO;
 import com.educare.mindfulhome.account.controller.dto.FamilyListDTO;
 import com.educare.mindfulhome.account.model.FamilyEntity;
 import com.educare.mindfulhome.account.service.AccountService;
+import com.educare.mindfulhome.activities.controller.dto.FullActivityDTO;
+import com.educare.mindfulhome.activities.model.ActivityEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -46,6 +49,14 @@ public class BOAccountController {
         FamilyListDTO familyList = new FamilyListDTO(familiesDTO);
         log.info("BOAccountController:listFamilies() - res: " + Arrays.toString(familyList.getFamilies().toArray()));
         return new ResponseEntity<>(familyList, HttpStatus.OK);
+    }
+
+    @GetMapping("/families/{id}")
+    public FamilyDTO getFamilyById(@PathVariable Long id) {
+        log.info("BOAccountController:getFamilyById() - req: " + id);
+        FamilyEntity family = service.getFamilyById(id);
+        log.info("BOAccountController:getFamilyById() - res: " + family);
+        return modelMapper.map(family, FamilyDTO.class);
     }
 
 }
